@@ -67,13 +67,13 @@ const ProductScreen = ({ match }) => {
                   <Col>Status:</Col>
                   <Col>
                     <strong>
-                      {product.countInStocks > 0 ? 'In Stock' : 'Out of Stock'}
+                      {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
                     </strong>
                   </Col>
                 </Row>
               </ListGroupItem>
 
-              {product.countInStocks > 0 && (
+              {product.countInStock > 0 && (
                 <ListGroup.Item>
                   <Row>
                     <Col>Qty</Col>
@@ -85,7 +85,7 @@ const ProductScreen = ({ match }) => {
                           setQuantity(e.target.value)
                         }}
                       >
-                        {[...Array(product.countInStocks).keys()].map((x) => (
+                        {[...Array(product.countInStock).keys()].map((x) => (
                           <option key={x + 1} value={x + 1}>
                             {x + 1}
                           </option>
@@ -101,7 +101,7 @@ const ProductScreen = ({ match }) => {
                   <Button
                     className='btn-block'
                     type='button'
-                    disabled={product.countInStocks === 0}
+                    disabled={product.countInStock === 0}
                   >
                     Add to Cart
                   </Button>
