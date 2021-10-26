@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Row,
@@ -8,6 +8,7 @@ import {
   Card,
   Button,
   ListGroupItem,
+  Form,
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Rating from '../components/Rating'
@@ -17,6 +18,7 @@ import Message from '../components/Message'
 
 const ProductScreen = ({ match }) => {
   const dispatch = useDispatch()
+  const [quantity, setQuantity] = useState(0)
   const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
   useEffect(() => {
@@ -65,17 +67,41 @@ const ProductScreen = ({ match }) => {
                   <Col>Status:</Col>
                   <Col>
                     <strong>
-                      {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
+                      {product.countInStocks > 0 ? 'In Stock' : 'Out of Stock'}
                     </strong>
                   </Col>
                 </Row>
               </ListGroupItem>
+
+              {product.countInStocks > 0 && (
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Qty</Col>
+                    <Col>
+                      <Form.Control
+                        as='select'
+                        value={quantity}
+                        onChange={(e) => {
+                          setQuantity(e.target.value)
+                        }}
+                      >
+                        {[...Array(product.countInStocks).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              )}
+
               <ListGroupItem>
                 <Row>
                   <Button
                     className='btn-block'
                     type='button'
-                    disabled={product.countInStock === 0}
+                    disabled={product.countInStocks === 0}
                   >
                     Add to Cart
                   </Button>
